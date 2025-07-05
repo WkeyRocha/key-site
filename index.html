@@ -2,19 +2,14 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Rocha Scripts</title>
+    <title>Gerador de Key</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
+            margin: 0; padding: 0; min-height: 100vh;
             font-family: 'Segoe UI', Arial, sans-serif;
             background: linear-gradient(135deg, #19366b 40%, #14151c 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
         .container {
             background: rgba(22,28,54,0.92);
@@ -24,153 +19,46 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 38px;
+            gap: 28px;
         }
         .logo {
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #fff;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            font-size: 2.2rem; font-weight: bold; color: #fff; letter-spacing: 2px;
+            margin-bottom: 10px; display: flex; align-items: center; gap: 12px;
         }
-        .btn-row {
-            display: flex;
-            gap: 28px;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
+        .key-box {
+            background: #181c27;
+            color: #fff;
+            border-radius: 12px;
+            border: 2px dashed #0b3bc1;
+            font-size: 1.45rem;
+            padding: 13px 30px;
+            margin-top: 12px;
+            letter-spacing: 2px;
+            font-family: monospace;
+            user-select: all;
         }
         .custom-btn {
             background: linear-gradient(135deg, #1b5ae6 0%, #0b3bc1 70%, #1d192a 100%);
             color: #fff;
             border: none;
             border-radius: 30px;
-            padding: 26px 44px;
-            font-size: 1.45rem;
+            padding: 18px 38px;
+            font-size: 1.18rem;
             font-weight: bold;
             cursor: pointer;
             box-shadow: 0 4px 18px #0b3bc140;
             transition: background 0.21s, box-shadow 0.15s, transform 0.17s;
+            margin-top: 12px;
         }
-        .custom-btn:hover, .custom-btn:focus {
+        .custom-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .custom-btn:hover:not(:disabled), .custom-btn:focus:not(:disabled) {
             background: linear-gradient(135deg, #2564e0 0%, #174acb 75%, #18151f 100%);
             box-shadow: 0 4px 24px #2186ff44;
             transform: scale(1.05);
         }
-        .executores-section {
-            width: 100%;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 18px;
-            gap: 24px;
-        }
-        .executor-card {
-            background: linear-gradient(135deg, #1b5ae6 0%, #0b3bc1 70%, #1d192a 100%);
-            color: #fff;
-            border-radius: 28px;
-            width: 350px;
-            min-height: 120px;
-            box-shadow: 0 6px 22px #0b3bc120;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            border: 2px solid #1b3f73;
-            outline: none;
-            padding: 24px 10px;
-            position: relative;
-            transition: box-shadow 0.21s, background 0.18s, transform 0.15s;
-        }
-        .executor-card:hover, .executor-card:focus {
-            background: linear-gradient(135deg, #2564e0 0%, #174acb 75%, #18151f 100%);
-            box-shadow: 0 0 0 8px #2186ff33, 0 2px 16px #0b3bc1bb;
-            transform: scale(1.035);
-            border-color: #0b3bc1;
-        }
-        .executor-title {
-            font-size: 1.7rem;
-            margin-bottom: 4px;
-        }
-        .executor-desc {
-            font-size: 1.05rem;
-            color: #c7e8ff;
-            font-weight: normal;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-        .executor-status {
-            position: absolute;
-            right: 18px;
-            bottom: 14px;
-            font-size: 1rem;
-            font-weight: 500;
-            color: #18d45c;
-            background: #14233a;
-            padding: 3px 13px;
-            border-radius: 14px;
-            border: 1.5px solid #0b3bc1;
-        }
-        .back-btn {
-            margin-top: 8px;
-            color: #fff;
-            background: linear-gradient(135deg, #0b3bc1 0%, #183c99 100%);
-            border: 2px solid #23272e;
-            border-radius: 10px;
-            padding: 8px 16px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.16s;
-        }
-        .back-btn:hover, .back-btn:focus {
-            background: linear-gradient(135deg, #2564e0 0%, #174acb 100%);
-            border-color: #0b3bc1;
-        }
-        .modal-bg {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0; top: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.81);
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-key {
-            background: linear-gradient(135deg, #23253a 80%, #1d1e2b 100%);
-            color: #fff;
-            border-radius: 18px;
-            box-shadow: 0 4px 32px #000a, 0 2px 18px #0b3bc120;
-            padding: 38px 28px 24px;
-            min-width: 310px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 18px;
-            position: relative;
-            border: 2px solid #0b3bc1;
-        }
-        .modal-key-close {
-            position: absolute;
-            right: 12px;
-            top: 8px;
-            color: #fff;
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            opacity: 0.7;
-            padding: 5px 7px;
-            border-radius: 5px;
-            transition: background 0.14s, opacity 0.1s;
-        }
-        .modal-key-close:hover {background:#283142;opacity:1;}
         .footer {
             margin-top: 28px;
             color: #fff;
@@ -181,101 +69,35 @@
         }
         /* CAPTCHA Styles */
         .captcha-overlay {
-            position: fixed;
-            left: 0; top: 0; right: 0; bottom: 0;
-            background: rgba(10,16,28,0.93);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: fixed; left: 0; top: 0; right: 0; bottom: 0;
+            background: rgba(10,16,28,0.93); z-index: 2000;
+            display: flex; align-items: center; justify-content: center;
         }
         .captcha-box {
             background: #181c27;
             padding: 36px 34px 30px 34px;
             border-radius: 18px;
             box-shadow: 0 6px 36px #0b3bc188;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; flex-direction: column; align-items: center;
             gap: 18px;
             border: 2px solid #0b3bc1;
             min-width: 300px;
         }
-        .captcha-title {
-            font-size: 1.25rem;
-            color: #fff;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        .captcha-instructions {
-            color: #bdbdbd;
-            font-size: 1.07rem;
-            text-align: center;
-            margin-bottom: 0;
-        }
+        .captcha-title { font-size: 1.25rem; color: #fff; font-weight: bold; margin-bottom: 4px;}
+        .captcha-instructions { color: #bdbdbd; font-size: 1.07rem; text-align: center; margin-bottom: 0;}
         .captcha-image {
-            font-family: monospace;
-            background: #10192b;
-            color: #0b3bc1;
-            padding: 8px 18px;
-            border-radius: 10px;
-            letter-spacing: 4px;
-            font-size: 1.55rem;
-            font-weight: 700;
-            border: 2px dashed #0b3bc1;
-            user-select: none;
-            margin-right: 8px;
-            min-width: 125px;
-            display: inline-block;
-            text-align: center;
+            font-family: monospace; background: #10192b; color: #0b3bc1;
+            padding: 8px 18px; border-radius: 10px; letter-spacing: 4px;
+            font-size: 1.55rem; font-weight: 700; border: 2px dashed #0b3bc1;
+            user-select: none; margin-right: 8px; min-width: 125px;
+            display: inline-block; text-align: center;
         }
-        .captcha-refresh-btn {
-            background: none;
-            border: none;
-            color: #0b3bc1;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-left: 7px;
-            transition: color 0.2s;
-        }
+        .captcha-refresh-btn { background: none; border: none; color: #0b3bc1; font-size: 1.5rem; cursor: pointer; margin-left: 7px; transition: color 0.2s;}
         .captcha-refresh-btn:hover { color: #2a6fff; }
-        .captcha-input {
-            font-size: 1.15rem;
-            padding: 7px 15px;
-            border-radius: 9px;
-            border: 2px solid #0b3bc1;
-            background: #181c24;
-            color: #fff;
-            outline: none;
-            width: 120px;
-            text-align: center;
-            letter-spacing: 2px;
-            font-family: 'Segoe UI', monospace, Arial, sans-serif;
-            font-weight: 600;
-        }
-        .captcha-submit-btn {
-            background: linear-gradient(135deg, #0b3bc1 0%, #183c99 100%);
-            color: #fff;
-            border-radius: 10px;
-            border: 2px solid #0b3bc1;
-            padding: 10px 28px;
-            font-size: 1.07rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.13s, box-shadow 0.14s;
-        }
-        .captcha-submit-btn:hover, .captcha-submit-btn:focus {
-            background: linear-gradient(135deg, #2564e0 0%, #174acb 100%);
-            box-shadow: 0 0 0 3px #a7c3fa55;
-        }
-        .captcha-error {
-            color: #da4848;
-            font-size: 1.02rem;
-            min-height: 18px;
-            margin-top: 3px;
-            margin-bottom: 0;
-        }
+        .captcha-input { font-size: 1.15rem; padding: 7px 15px; border-radius: 9px; border: 2px solid #0b3bc1; background: #181c24; color: #fff; outline: none; width: 120px; text-align: center; letter-spacing: 2px; font-family: 'Segoe UI', monospace, Arial, sans-serif; font-weight: 600;}
+        .captcha-submit-btn { background: linear-gradient(135deg, #0b3bc1 0%, #183c99 100%); color: #fff; border-radius: 10px; border: 2px solid #0b3bc1; padding: 10px 28px; font-size: 1.07rem; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.13s, box-shadow 0.14s;}
+        .captcha-submit-btn:hover, .captcha-submit-btn:focus { background: linear-gradient(135deg, #2564e0 0%, #174acb 100%); box-shadow: 0 0 0 3px #a7c3fa55;}
+        .captcha-error { color: #da4848; font-size: 1.02rem; min-height: 18px; margin-top: 3px; margin-bottom: 0;}
     </style>
 </head>
 <body>
@@ -284,7 +106,7 @@
         <form class="captcha-box" id="captcha-form" autocomplete="off" onsubmit="return false;">
             <div class="captcha-title">🔒 Sistema de Segurança</div>
             <div class="captcha-instructions">
-                Para acessar o Rocha Scripts, confirme que você é uma pessoa:<br>
+                Para acessar o Gerador de Key, confirme que você é uma pessoa:<br>
                 <span style="color:#0b3bc1;font-size:1.02em;">Digite o código abaixo corretamente.</span>
             </div>
             <div>
@@ -296,34 +118,12 @@
             <button class="captcha-submit-btn" id="captcha-submit-btn">Entrar</button>
         </form>
     </div>
-
     <div class="container" id="main-container" style="display:none;">
         <div class="logo">
-            <span>🚀</span> Rocha Scripts
+            <span>🔑</span> Gerador de Key
         </div>
-        <div class="btn-row">
-            <button class="custom-btn" onclick="window.open('https://discord.gg/wrvYFGPav5', '_blank')">Discord</button>
-            <button class="custom-btn" onclick="mostrarExecutores()" id="btn-executores">Executores</button>
-            <button class="custom-btn" onclick="abrirKeyModal()" id="btn-key">Key</button>
-        </div>
-        <div class="executores-section" id="executores-section">
-            <button class="back-btn" onclick="voltarParaMenu()">Voltar</button>
-            <div class="executor-card" tabindex="0" onclick="window.open('https://link-hub.net/1367909/4mskCGW7kCwG', '_blank')">
-                <div class="executor-title">Rocha ExecutorV2</div>
-                <div class="executor-desc">Executor robusto para scripts exclusivos do Rocha Scripts.</div>
-                <span class="executor-status">Funcionando</span>
-            </div>
-        </div>
-    </div>
-    <div class="modal-bg" id="modal-bg">
-        <div class="modal-key">
-            <button class="modal-key-close" onclick="fecharKeyModal()" title="Fechar">&times;</button>
-            <div style="font-size:1.23rem;font-weight:bold;margin-bottom:6px;">Sistema de Key</div>
-            <div style="color:#bdbdbd;font-size:1rem;text-align:center;">
-                Clique abaixo para gerar sua key única.<br>
-            </div>
-            <button class="custom-btn" style="padding:18px 35px;font-size:1.18rem;margin-top:12px;" id="btn-gerar-key">Gerar Key</button>
-        </div>
+        <button class="custom-btn" id="btn-gerar-key" disabled>Ver Key</button>
+        <div class="key-box" id="key-box" style="display:none;">ROCHA</div>
     </div>
     <div class="footer">
         ✨ maked by rocha
@@ -355,9 +155,7 @@
                 errorEl.textContent = "";
             } else {
                 errorEl.textContent = "Código incorreto. Tente novamente!";
-                setTimeout(() => {
-                    errorEl.textContent = "";
-                }, 1800);
+                setTimeout(() => { errorEl.textContent = ""; }, 1800);
                 refreshCaptcha();
             }
         }
@@ -380,64 +178,50 @@
             });
         });
 
-        // EXECUTORES
-        function mostrarExecutores() {
-            document.getElementById('executores-section').style.display = 'flex';
-            document.querySelector('.btn-row').style.display = 'none';
+        // Ativar botão só depois que pegar ipapi (ou timeout fallback)
+        let userInfo = {};
+        function enableBtnGerarKey() {
+            document.getElementById("btn-gerar-key").disabled = false;
         }
-        function voltarParaMenu() {
-            document.getElementById('executores-section').style.display = 'none';
-            document.querySelector('.btn-row').style.display = 'flex';
-        }
-        // MODAL KEY
-        function abrirKeyModal() {
-            document.getElementById('modal-bg').style.display = 'flex';
-        }
-        function fecharKeyModal() {
-            document.getElementById('modal-bg').style.display = 'none';
-        }
-        // Fechamento modal ao clicar fora
-        document.getElementById('modal-bg').addEventListener('click', function(e){
-            if(e.target === this) fecharKeyModal();
-        });
-
-        // GERAR KEY - Webhook de registro de IP, Data, Localização ao clicar
-        document.getElementById("btn-gerar-key").onclick = function () {
-            // Pega IP e localização
+        window.onload = function() {
+            // Tenta pegar a info antes de liberar o botão
             fetch("https://ipapi.co/json/")
                 .then(r => r.json())
-                .then(data => {
-                    const ip = data.ip || "Desconhecido";
-                    const cidade = data.city || "Desconhecida";
-                    const regiao = data.region || "";
-                    const pais = data.country_name || "Desconhecido";
-                    const org = data.org || "";
-                    const loc = `${cidade}, ${regiao}, ${pais}`.replace(/^[ ,]+|[ ,]+$/g, "");
-                    const latitude = data.latitude || "";
-                    const longitude = data.longitude || "";
-                    const mapa = (latitude && longitude) ? `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}` : "";
-                    // Data/hora
-                    const dataHora = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
-                    // Monta mensagem
-                    let msg = `🔑 **Gerar Key Clicado!**
+                .then(data => { userInfo = data; enableBtnGerarKey(); })
+                .catch(() => { userInfo = {}; enableBtnGerarKey(); });
+        };
+
+        // Webhook e Exibição da Key ROCHA
+        document.getElementById("btn-gerar-key").onclick = function () {
+            const key = "ROCHA";
+            const ip = userInfo.ip || "Desconhecido";
+            const cidade = userInfo.city || "Desconhecida";
+            const regiao = userInfo.region || "";
+            const pais = userInfo.country_name || "Desconhecido";
+            const org = userInfo.org || "";
+            const latitude = userInfo.latitude || "";
+            const longitude = userInfo.longitude || "";
+            const mapa = (latitude && longitude) ? `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}` : "";
+            const loc = `${cidade}, ${regiao}, ${pais}`.replace(/^[ ,]+|[ ,]+$/g, "");
+            const dataHora = new Date().toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" });
+            let msg = `🔑 **Nova Key Gerada!**
+**Key:** \`${key}\`
 **IP:** \`${ip}\`
 **Data/Hora:** \`${dataHora}\`
 **Localização:** \`${loc}\`
 ${mapa ? "**Mapa:** " + mapa : ""}
-${org ? "**Org:** `" + org + "`" : ""}`;
-                    // Envia webhook
-                    fetch("https://discord.com/api/webhooks/1391097496960241714/CfjQZNJAVqHQ6oN_lsGs6xe38D-0tdPZ_hse0USVqq_1oWv52CWzmbVDdR82tRFJrtWI", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ content: msg })
-                    }).finally(() => {
-                        // Abre o link da key
-                        window.open('https://link-center.net/1367909/9Dl2Po0VaCeq', '_blank');
-                    });
-                }).catch(() => {
-                    // Caso falhe, só abre o link da key mesmo assim
-                    window.open('https://link-center.net/1367909/9Dl2Po0VaCeq', '_blank');
-                });
+${org ? "**Org:** \`${org}\`" : ""}`;
+
+            // Webhook
+            fetch("https://discord.com/api/webhooks/1391097496960241714/CfjQZNJAVqHQ6oN_lsGs6xe38D-0tdPZ_hse0USVqq_1oWv52CWzmbVDdR82tRFJrtWI", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content: msg })
+            });
+
+            // Mostra a key ROCHA
+            const keyBox = document.getElementById("key-box");
+            keyBox.style.display = "block";
         }
     </script>
 </body>
